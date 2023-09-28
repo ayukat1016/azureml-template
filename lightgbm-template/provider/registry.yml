@@ -1,0 +1,6 @@
+description: dev-ml-template-registry
+tags:
+  foo: bar
+location: japaneast
+replication_locations:
+  - location: japaneast

@@ -1,0 +1,21 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+type: command
+
+name: dev_ml_template_train
+display_name: dev-ml-template-train
+version: 1
+
+inputs:
+  data_input:
+    type: uri_folder
+
+outputs:
+  model_output:
+    type: mlflow_model
+
+code: ../dist
+
+environment: azureml://registries/dev-ml-template-registry103/environments/dev-ml-template-environment/versions/1
+
+command: >-
+  python -m src train ${{outputs.model_output}} ${{inputs.data_input}}/X_train.csv ${{inputs.data_input}}/y_train.csv

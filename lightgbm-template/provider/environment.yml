@@ -1,0 +1,6 @@
+$schema: https://azuremlschemas.azureedge.net/latest/environment.schema.json
+name: dev-ml-template-environment
+version: 1
+description: dev-ml-template-environment
+build:
+  path: ./build

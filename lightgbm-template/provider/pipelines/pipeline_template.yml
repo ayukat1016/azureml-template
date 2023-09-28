@@ -1,0 +1,54 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+
+display_name: deploy-pipeline
+experiment_name: deploy-pipeline
+description: deploy-pipeline
+
+settings:
+  default_compute: ${COMPUTE_PATH}
+
+
+jobs:
+  component_preprocess:
+    type: command
+    component: ${COMPONENT_PREPROCESS_PATH}
+    inputs:
+      data_input:
+        type: uri_folder
+        path: ${DATA_PATH}
+    outputs:
+      data_output:
+        mode: rw_mount
+    limits:
+      timeout: 360
+  component_train:
+    type: command
+    component: ${COMPONENT_TRAIN_PATH}
+    inputs:
+      data_input: ${{parent.jobs.component_preprocess.outputs.data_output}}
+    outputs:
+      model_output:
+        type: mlflow_model
+        mode: rw_mount
+    limits:
+      timeout: 360
+  component_predict:
+    type: command
+    component: ${COMPONENT_PREDICT_PATH}
+    inputs:
+      data_input: ${{parent.jobs.component_preprocess.outputs.data_output}}
+      model_input: ${{parent.jobs.component_train.outputs.model_output}}
+    outputs:
+      predict_output:
+        mode: rw_mount
+    limits:
+      timeout: 360
+  component_evaluate:
+    type: command
+    component: ${COMPONENT_EVALUATE_PATH}
+    inputs:
+      data_input: ${{parent.jobs.component_preprocess.outputs.data_output}}
+      predict_input: ${{parent.jobs.component_predict.outputs.predict_output}}
+    limits:
+      timeout: 360

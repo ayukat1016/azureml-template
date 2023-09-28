@@ -1,0 +1,23 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+type: command
+
+name: dev_ml_template_predict
+display_name: dev-ml-template-predict
+version: 1
+
+inputs:
+  data_input:
+    type: uri_folder
+  model_input:
+    type: mlflow_model
+
+outputs:
+  predict_output:
+    type: uri_folder
+
+code: ../dist
+
+environment: azureml://registries/dev-ml-template-registry103/environments/dev-ml-template-environment/versions/1
+
+command: >-
+  python -m src predict ${{inputs.model_input}} ${{inputs.data_input}}/X_test.csv ${{outputs.predict_output}}/y_test_pred.csv
