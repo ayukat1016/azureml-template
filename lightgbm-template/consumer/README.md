@@ -46,7 +46,7 @@ az ml compute create --type 'AmlCompute' --name 'cpu-cluster' --min-instances 0 
 
 - データ資産登録
 ```sh
-az ml data create --type uri_folder --name 'dev-ml-template' --description 'dev-ml-template' --path './dataset' --resource-group 'dev-ml-template-rg203' --workspace-name 'dev-ml-template-ws203'
+az ml data create --type uri_folder --name 'dev-ml-template-dataset' --description 'dev-ml-template-dataset' --path './dataset' --resource-group 'dev-ml-template-rg203' --workspace-name 'dev-ml-template-ws203'
 ```
 
 - 参考
