@@ -12,8 +12,8 @@ STORAGE_ACCOUNT_KEY=$(az storage account keys list --subscription ${PROVIDER_SUB
 
 # データ資産登録
 ASSET_DIR=./dataset
-ASSET_NAME=dev-ml-template
-ASSET_DESC=dev-ml-template
+ASSET_NAME=dev-ml-template-dataset
+ASSET_DESC=dev-ml-template-dataset
 ASSET_VERSION=1
 ASSET_PATH=${ASSET_DIR}/diamonds.csv
 

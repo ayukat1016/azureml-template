@@ -16,7 +16,7 @@ jobs:
     inputs:
       data_input:
         type: uri_folder
-        path: azureml:dev-ml-template:1
+        path: azureml:dev-ml-template-dataset:1
     outputs:
       data_output:
         mode: rw_mount
