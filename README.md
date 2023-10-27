@@ -1,1 +1,1 @@
-# azure-ml-template
+# azureml-template
