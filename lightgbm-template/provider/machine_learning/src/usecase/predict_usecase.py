@@ -1,7 +1,7 @@
 import mlflow
 import pandas as pd
 
-mlflow.lightgbm.autolog()
+# https://mlflow.org/docs/latest/python_api/mlflow.lightgbm.html#mlflow.lightgbm.load_model
 
 
 class PredictUsecase:
