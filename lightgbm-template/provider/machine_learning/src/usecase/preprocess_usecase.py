@@ -62,15 +62,6 @@ class PreprocessUsecase:
             X_train[c] = le.transform(X_train[c])
             X_test[c] = le.transform(X_test[c])
 
-        # カテゴリ変数のデータ型をcategory型に変換
-        cat_cols = ["cut", "color", "clarity"]
-
-        for c in cat_cols:
-            X_train[c] = X_train[c].astype("category")
-            X_test[c] = X_test[c].astype("category")
-
-        X_train.info()
-
         # 学習データとテストデータの保存
         X_train.to_csv(self.X_train_path)
         X_test.to_csv(self.X_test_path)

@@ -39,6 +39,12 @@ class TrainUsecase:
         print(X_train.head())
         print(y_train.head())
 
+        # カテゴリ変数のデータ型をcategory型に変換
+        cat_cols = ["cut", "color", "clarity"]
+
+        for c in cat_cols:
+            X_train[c] = X_train[c].astype("category")
+
         # 学習データの一部を検証データに分割
         X_tr, X_va, y_tr, y_va = train_test_split(X_train, y_train, test_size=0.2, shuffle=True, random_state=0)
         print("X_trの形状：", X_tr.shape, " y_trの形状：", y_tr.shape, " X_vaの形状：", X_va.shape, " y_vaの形状：", y_va.shape)

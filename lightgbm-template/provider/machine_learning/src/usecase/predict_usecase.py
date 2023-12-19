@@ -15,6 +15,12 @@ class PredictUsecase:
         X_test = pd.read_csv(self.X_test_path, index_col=0)
         print(X_test.head())
 
+        # カテゴリ変数のデータ型をcategory型に変換
+        cat_cols = ["cut", "color", "clarity"]
+
+        for c in cat_cols:
+            X_test[c] = X_test[c].astype("category")
+
         # モデルの読み込み
         model = mlflow.lightgbm.load_model(self.model_path)
 
