@@ -7,31 +7,35 @@ template2work:
 	mkdir -p $(WORK_DIR)
 	cp -rf $(TEMPLATE_DIR) $(WORK_DIR)
 	# aml registry rg
-	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg103/dev-ml-template-rg111/g"
+	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg101/dev-ml-template-rg113/g"
 	# aml registry name
-	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-registry103/dev-ml-template-registry111/g"
+	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-registry101/dev-ml-template-registry113/g"
 	# storage account name
-	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/devmlst103/devmlst111/g"
+	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/devmlst101/devmlst113/g"
 	# storage container name
-	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/devmlstc103/devmlstc111/g"
+	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/devmlstc101/devmlstc113/g"
 	# consumer rg
-	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg203/dev-ml-template-rg211/g"
+	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg201/dev-ml-template-rg213/g"
 	# workspace
-	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-ws203/dev-ml-template-ws211/g"
+	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-ws201/dev-ml-template-ws213/g"
+
+
+WORK_TEMPLATE_DIR=work/consumer work/provider
+CURRENT_DIR=.
 
 .PHONY: work2template
 work2template:
 	rm -rf $(TEMPLATE_DIR)
-	cp -rf $(WORK_DIR) $(TEMPLATE_DIR)
+	cp -rf $(WORK_TEMPLATE_DIR) $(CURRENT_DIR)
 	# aml registry rg
-	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg10x/dev-ml-template-rg101/g"
+	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg1xx/dev-ml-template-rg101/g"
 	# aml registry name
-	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-registry10x/dev-ml-template-registry101/g"
+	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-registry1xx/dev-ml-template-registry101/g"
 	# storage account name
-	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/devmlst10x/devmlst101/g"
+	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/devmlst1xx/devmlst101/g"
 	# storage container name
-	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/devmlstc10x/devmlstc101/g"
+	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/devmlstc1xx/devmlstc101/g"
 	# consumer rg
-	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg20x/dev-ml-template-rg201/g"
+	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg2xx/dev-ml-template-rg201/g"
 	# workspace
-	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-ws20x/dev-ml-template-ws201/g"
+	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-ws2xx/dev-ml-template-ws201/g"

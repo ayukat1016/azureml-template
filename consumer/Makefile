@@ -1,11 +1,11 @@
 SUB ?= f9928460-8ada-4f70-983d-a98b5653e039
-RG ?= dev-ml-template-rg103
+RG ?= dev-ml-template-rg101
 TS_NAME ?= make_aml_ws
 TS_VERSION ?= 1
 USER_ADDR ?= sample@example.com
 
 CONSUMER_SUB ?= 153a38d1-2342-4e80-a56a-c0b0ae9c7c50
-CONSUMER_RG ?= dev-ml-template-rg203
+CONSUMER_RG ?= dev-ml-template-rg201
 
 # テンプレート仕様の定義ファイルを生成
 .PHONY: gen-ts

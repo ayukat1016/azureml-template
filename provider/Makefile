@@ -1,11 +1,11 @@
 LOCATION ?= japaneast
 SUB ?= f9928460-8ada-4f70-983d-a98b5653e039
-RG ?= dev-ml-template-rg103
+RG ?= dev-ml-template-rg101
 # Must be unique name in global
-AML_REGISTRY ?= dev-ml-template-registry103
+AML_REGISTRY ?= dev-ml-template-registry101
 # Must be unique name in global
-STORAGE_ACCOUNT_NAME ?= devmlst103
-STORAGE_CONTAINER_NAME ?= devmlstc103
+STORAGE_ACCOUNT_NAME ?= devmlst101
+STORAGE_CONTAINER_NAME ?= devmlstc101
 IDENTITY_NAME ?= dev-ml-template-managedid
 
 # サブスクリプション切替

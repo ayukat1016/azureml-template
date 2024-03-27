@@ -18,12 +18,12 @@ az account set --subscription '153a38d1-2342-4e80-a56a-c0b0ae9c7c50'
 
 - 新規のリソースグループを作成
 ```sh
-az group create --name 'dev-ml-template-rg203' --location 'japaneast'
+az group create --name 'dev-ml-template-rg201' --location 'japaneast'
 ```
 
 - 新規のリソースグループを指定して、ワークスペースを作成
 ```sh
-az ml workspace create --name 'dev-ml-template-ws203' --resource-group 'dev-ml-template-rg203'
+az ml workspace create --name 'dev-ml-template-ws201' --resource-group 'dev-ml-template-rg201'
 ```
 
 - 参考
@@ -34,7 +34,7 @@ az ml workspace create --name 'dev-ml-template-ws203' --resource-group 'dev-ml-t
 -  Compute Clusterの登録
 
 ```sh
-az ml compute create --type 'AmlCompute' --name 'cpu-cluster' --min-instances 0 --max-instances 1 --size 'Standard_DS11_v2' --resource-group 'dev-ml-template-rg203' --workspace-name 'dev-ml-template-ws203'
+az ml compute create --type 'AmlCompute' --name 'cpu-cluster' --min-instances 0 --max-instances 1 --size 'Standard_DS11_v2' --resource-group 'dev-ml-template-rg201' --workspace-name 'dev-ml-template-ws201'
 ```
 
 - 参考
@@ -46,7 +46,7 @@ az ml compute create --type 'AmlCompute' --name 'cpu-cluster' --min-instances 0 
 
 - データ資産登録
 ```sh
-az ml data create --type uri_folder --name 'dev-ml-template-dataset' --description 'dev-ml-template-dataset' --path './dataset' --resource-group 'dev-ml-template-rg203' --workspace-name 'dev-ml-template-ws203'
+az ml data create --type uri_folder --name 'dev-ml-template-dataset' --description 'dev-ml-template-dataset' --path './dataset' --resource-group 'dev-ml-template-rg201' --workspace-name 'dev-ml-template-ws201'
 ```
 
 - 参考
@@ -56,7 +56,7 @@ az ml data create --type uri_folder --name 'dev-ml-template-dataset' --descripti
 
 - ジョブ実行登録
 ```sh
-az ml job create --file 'pipelines/pipeline.yml' --resource-group 'dev-ml-template-rg203' --workspace-name 'dev-ml-template-ws203'
+az ml job create --file 'pipelines/pipeline.yml' --resource-group 'dev-ml-template-rg201' --workspace-name 'dev-ml-template-ws201'
 ```
 
 - 参考
@@ -100,7 +100,7 @@ make create-ts
 
 - azコマンドでも実行可能
 ```sh
-az ts create --name 'make_aml_ws' --template-file './make_aml_ws.json' --version 1 --resource-group 'dev-ml-template-rg103' --subscription 'f9928460-8ada-4f70-983d-a98b5653e039'
+az ts create --name 'make_aml_ws' --template-file './make_aml_ws.json' --version 1 --resource-group 'dev-ml-template-rg101' --subscription 'f9928460-8ada-4f70-983d-a98b5653e039'
 ```
 
 ## 利用者へのテンプレートスペック実行の権限追加
@@ -121,7 +121,7 @@ az ts create --name 'make_aml_ws' --template-file './make_aml_ws.json' --version
 az ad user list --query "[?mail == 'sample@example.com'].id" --output 'tsv'
 
 # 利用者に テンプレートスペックの `閲覧者` ロールを付与
-az role assignment create --assignee '利用者のプリンシパルID' --role '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7' --scope '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/resourceGroups/dev-ml-template-rg103/providers/Microsoft.Resources/templateSpecs/make_aml_ws'
+az role assignment create --assignee '利用者のプリンシパルID' --role '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7' --scope '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/resourceGroups/dev-ml-template-rg101/providers/Microsoft.Resources/templateSpecs/make_aml_ws'
 ```
 
 - 以下コマンドを叩いても実行することも可能、実行前にmakeファイルのメールアドレスを変更すること
@@ -140,7 +140,7 @@ make create-role-assignment-user
 az ad user list --query "[?mail == 'sample@example.com'].id" --output 'tsv'
 
 # 利用者に AMLレジストリへの '閲覧者' ロールを付与
-az role assignment create --assignee '利用者のプリンシパルID' --role '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7' --scope '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/resourceGroups/dev-ml-template-rg103/providers/Microsoft.MachineLearningServices/registries/dev-ml-template-registry103'
+az role assignment create --assignee '利用者のプリンシパルID' --role '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7' --scope '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/resourceGroups/dev-ml-template-rg101/providers/Microsoft.MachineLearningServices/registries/dev-ml-template-registry101'
 ```
 
 ### 利用者へのマネージドIDの権限付与の権限追加
@@ -154,7 +154,7 @@ az role assignment create --assignee '利用者のプリンシパルID' --role '
 az ad user list --query "[?mail == 'sample@example.com'].id" --output 'tsv'
 
 # 利用者に マネージドIDの `マネージドIDオペレータ` ロールを付与
-az role assignment create --assignee '利用者のプリンシパルID' --role '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/providers/Microsoft.Authorization/roleDefinitions/f1a07417-d97a-45cb-824c-7a7467783830' --scope 'subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/resourcegroups/dev-ml-template-rg103/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-ml-template-managedid'
+az role assignment create --assignee '利用者のプリンシパルID' --role '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/providers/Microsoft.Authorization/roleDefinitions/f1a07417-d97a-45cb-824c-7a7467783830' --scope 'subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/resourcegroups/dev-ml-template-rg101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-ml-template-managedid'
 ```
 - 参考
   - https://learn.microsoft.com/ja-jp/azure/azure-resource-manager/templates/deployment-script-template#configure-the-minimum-permissions
@@ -176,7 +176,7 @@ make create-deployment-group
 
 - azコマンドでも実行可能
 ```sh
-az deployment group create --resource-group 'dev-ml-template-rg203' --template-file './make_aml_ws.json' --subscription '153a38d1-2342-4e80-a56a-c0b0ae9c7c50'
+az deployment group create --resource-group 'dev-ml-template-rg201' --template-file './make_aml_ws.json' --subscription '153a38d1-2342-4e80-a56a-c0b0ae9c7c50'
 ```
 
 - 参考

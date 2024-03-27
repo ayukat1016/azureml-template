@@ -15,7 +15,7 @@ outputs:
 
 code: ../dist
 
-environment: azureml://registries/dev-ml-template-registry103/environments/dev-ml-template-environment/versions/1
+environment: azureml://registries/dev-ml-template-registry101/environments/dev-ml-template-environment/versions/1
 
 command: >-
   python -m src preprocess ${{inputs.data_input}} ${{outputs.data_output}}/X_train.csv ${{outputs.data_output}}/X_test.csv ${{outputs.data_output}}/y_train.csv ${{outputs.data_output}}/y_test.csv

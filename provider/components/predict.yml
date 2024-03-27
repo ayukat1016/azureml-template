@@ -17,7 +17,7 @@ outputs:
 
 code: ../dist
 
-environment: azureml://registries/dev-ml-template-registry103/environments/dev-ml-template-environment/versions/1
+environment: azureml://registries/dev-ml-template-registry101/environments/dev-ml-template-environment/versions/1
 
 command: >-
   python -m src predict ${{inputs.model_input}} ${{inputs.data_input}}/X_test.csv ${{outputs.predict_output}}/y_test_pred.csv
