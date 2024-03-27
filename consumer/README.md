@@ -64,12 +64,13 @@ az ml job create --file 'pipelines/pipeline.yml' --resource-group 'dev-ml-templa
     - https://learn.microsoft.com/ja-jp/azure/machine-learning/how-to-read-write-data-v2?tabs=cli
 
 
-# テンプレートスペックの作成
+# ARMテンプレートによる自動デプロイ
+## テンプレートスペックの作成
 
-- 利用者デプロイ用のテンプレートスペックの作成方法を記載
+- 利用者がARMテンプレートを使ってデプロイできるようテンプレートスペックの作成方法を記載
 
 
-## ARMテンプレートのjsonファイルにデプロイスクリプトを埋め込む
+### テンプレートスペックのjsonファイルにデプロイスクリプトを埋め込む
 
 - 以下コマンドを叩くとARMテンプレートのjsonファイル `make_aml_ws_template.json` の `scriptContent` にシェル `deploy.sh` を埋め込んだjsonファイル `make_aml_ws.json` が生成される
 
@@ -90,7 +91,7 @@ make gen-ts
   - https://learn.microsoft.com/ja-jp/azure/role-based-access-control/role-assignments-template
 
 
-## テンプレートスペックを登録
+### テンプレートスペックを登録
 - 以下コマンドを叩くと提供者のリソースグループにデプロイ用のテンプレートスペック `make_aml_ws` が登録される
 
 ```sh
@@ -102,7 +103,7 @@ make create-ts
 az ts create --name 'make_aml_ws' --template-file './make_aml_ws.json' --version 1 --resource-group 'dev-ml-template-rg103' --subscription 'f9928460-8ada-4f70-983d-a98b5653e039'
 ```
 
-# 利用者へのテンプレートスペック実行の権限追加
+## 利用者へのテンプレートスペック実行の権限追加
 - 利用者は利用者のサブスクリプションに対して、 `所有者` の権限を持っていることを確認する（テンプレートスペック実行時にロールアサインメントでマネージドIDに `マネージドIDオペレーター` の権限を付与するので `共同作成者` の権限だと実行できない）
 
 - 利用者に提供者サブスクリプションの以下リソースの権限を付与する
@@ -110,7 +111,7 @@ az ts create --name 'make_aml_ws' --template-file './make_aml_ws.json' --version
   - AMLレジストリの `閲覧者`
   - マネージドIDの `マネージドIDオペレーター`
 
-## 利用者へのテンプレートスペックの閲覧権限追加
+### 利用者へのテンプレートスペックの閲覧権限追加
 
 - 利用者にテンプレートスペックの `閲覧者` のロールを付与する
 - 結果、利用者はテンプレートスペックを照会でき、デプロイ画面まで進むことができる
@@ -129,7 +130,7 @@ az role assignment create --assignee '利用者のプリンシパルID' --role '
 make create-role-assignment-user
 ```
 
-## 利用者へのAMLレジストリの閲覧権限追加
+### 利用者へのAMLレジストリの閲覧権限追加
 
 - 利用者にAMLレジストリの `閲覧者` のロールを付与する
 - 結果、利用者はAMLレジストリを照会できるようになる
@@ -142,7 +143,7 @@ az ad user list --query "[?mail == 'sample@example.com'].id" --output 'tsv'
 az role assignment create --assignee '利用者のプリンシパルID' --role '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7' --scope '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/resourceGroups/dev-ml-template-rg103/providers/Microsoft.MachineLearningServices/registries/dev-ml-template-registry103'
 ```
 
-## 利用者へのマネージドIDの権限付与の権限追加
+### 利用者へのマネージドIDの権限付与の権限追加
 
 - 利用者にマネージドIDの `マネージドIDオペレーター` のロールを付与する
 - 結果、利用者はテンプレートスペックのデプロイ実行時に、マネージドIDにデプロイ先RGの更新権限を付与できる
@@ -159,7 +160,11 @@ az role assignment create --assignee '利用者のプリンシパルID' --role '
   - https://learn.microsoft.com/ja-jp/azure/azure-resource-manager/templates/deployment-script-template#configure-the-minimum-permissions
 
 
-# ARMテンプレートを使ったデプロイ
+## テンプレートスペックを使ったデプロイ
+- 利用者は提供者のリソースグループに作成されたデプロイ用のテンプレートスペック `make_aml_ws` を選択し、リソースグループ名とワークスペース名を指定して実行する。
+
+
+## ARMテンプレートのjsonファイルを使ったデプロイ
 
 - テンプレートスペックを使用せず、ARMテンプレートのjsonファイルを使って直接デプロイすることも可能
 
