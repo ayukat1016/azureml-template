@@ -1,16 +1,16 @@
 # azureml-template
-本リポジトリはAzure Machine Learningの環境構築のテンプレートになります。テンプレートはAzure MLワークスペースで機械学習パイプラインを実行し、ダイヤモンド価格の予測モデルの前処理→学習→予測→評価を実行します。
+本リポジトリは[Azure Machine Learning](https://learn.microsoft.com/ja-jp/azure/machine-learning/overview-what-is-azure-machine-learning?view=azureml-api-2)の環境構築のテンプレートになります。テンプレートはAzure MLワークスペースで機械学習パイプラインを実行、予測モデルの前処理→学習→予測→評価のデータと実行結果を一元管理します。
 
 
 ## テンプレートの仕様
-- 技術提供者が技術利用者にML技術の実行環境を提供する。
-- 提供者と利用者は異なるサブスクリプションでもデプロイ可能とする。（同じサブスクリプションでも可）
-- [provider/README.md](./provider/README.md)は提供者のサブスクリプションでの操作を想定
-- [consumer/README.md](./consumer/README.md)は利用者のサブスクリプションでの操作を想定
-- ML技術は[provider/machine_learning](./provider/machine_learning)で管理し、提供したいML技術をAzure MLレジストリに登録する。
+- ML技術の開発者（以降、提供者と記載）がML技術を検証したい非開発者ユーザ（以降、利用者と記載）にML技術が動作する実行環境を提供（以降、デプロイと記載）する。
+- 提供者と利用者のサブスクリプションは異なることがあり、異なるサブスクリプション間でのデプロイが可能。（もちろん、同じサブスクリプション間でもOK）
+- [provider/README.md](./provider/README.md)は提供者のサブスクリプションでの操作を想定して記載。
+- [consumer/README.md](./consumer/README.md)は利用者のサブスクリプションでの操作を想定して記載。
+- ML技術は[provider/machine_learning](./provider/machine_learning)で管理し、提供者が提供したいML技術をAzure MLレジストリのコンポーネントに登録する。（本テンプレートはML技術にダイヤモンド価格の予測モデルを使用。）
 - Azure MLワークスペースはAzure MLレジストリのコンポーネントを参照し、利用者に登録済みのML技術を提供する。
-- Azure MLワークスペースはテンプレートスペックを実行して自動デプロイする。（azコマンドによる手動デプロイも可）
-- テンプレートスペックは権限管理され、権限付与された利用者のみ実行可能。
+- Azure MLワークスペースは利用者がテンプレートスペックを実行して自動デプロイする。（azコマンドによる手動デプロイも可）
+- テンプレートスペックは権限管理され、権限付与された利用者のみ実行可能とする。
 
 
 ## テンプレートの構成
@@ -26,7 +26,15 @@
     - リソース名の末尾は2xxで管理
 
  ## テンプレート実行の前提
+ - Windows(WSL2を有効化済み)やMacなどの実行環境を用意
  - Azureサブスクリプションを契約済み
+ - Azure CLIをインストール済み、未インストールの場合は以下のコマンドを実行
+
+```sh
+# Install Azure CLI
+# https://learn.microsoft.com/ja-jp/cli/azure/install-azure-cli-linux?pivots=apt
+ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+```
 
  ## テンプレートの実行
 - 本リポジトリのルートディレクトリに移動します。
@@ -57,9 +65,8 @@ find ./work -type f -print0 | xargs -0 sed -i -e "s/devmlstc101/devmlstc114/g"
 find ./work -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg201/dev-ml-template-rg214/g"
 # workspace
 find ./work -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-ws201/dev-ml-template-ws214/g"
-
 ```
-- workの中のproviderディレクトリを移動して、[provider/README.md](./provider/README.md)のazコマンドを実行する。
+- workの中のproviderディレクトリを移動して、[provider/README.md](./provider/README.md)のazコマンドを実行する。（azコマンド実行時にymlファイルが必要になるため）
 
 ```sh
 # ディレクトリの移動
@@ -70,7 +77,7 @@ $ pwd
 /home/xxx/repository/azureml-template/work/provider
 ```
 
-- workの中のconsumerディレクトリを移動して、[consumer/README.md](./provider/README.md)のazコマンドを実行する。
+- workの中のconsumerディレクトリを移動して、[consumer/README.md](./provider/README.md)のazコマンドを実行する。（azコマンド実行時にymlファイルが必要になるため）
 
 ```sh
 # ディレクトリの移動
