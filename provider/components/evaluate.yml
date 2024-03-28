@@ -14,7 +14,7 @@ inputs:
 
 code: ../dist
 
-environment: azureml://registries/dev-ml-template-registry103/environments/dev-ml-template-environment/versions/1
+environment: azureml://registries/dev-ml-template-registry101/environments/dev-ml-template-environment/versions/1
 
 command: >-
   python -m src evaluate ${{inputs.data_input}}/y_test.csv ${{inputs.predict_input}}/y_test_pred.csv

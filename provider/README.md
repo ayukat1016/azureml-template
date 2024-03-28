@@ -24,7 +24,7 @@ az account set --subscription 'f9928460-8ada-4f70-983d-a98b5653e039'
 - 新規のリソースグループを作成
 ```sh
 # 作成
-az group create --name 'dev-ml-template-rg103' --location 'japaneast'
+az group create --name 'dev-ml-template-rg101' --location 'japaneast'
 # 一覧取得
 az group list --output table
 ```
@@ -35,7 +35,7 @@ az group list --output table
 
 ```sh
 az extension add --name ml
-az ml registry create --file 'registry.yml' --name 'dev-ml-template-registry103' --resource-group 'dev-ml-template-rg103'
+az ml registry create --file 'registry.yml' --name 'dev-ml-template-registry101' --resource-group 'dev-ml-template-rg101'
 ```
 
 - 参考
@@ -54,7 +54,7 @@ cp 'machine_learning/pyproject.toml' 'build/'
 cp 'machine_learning/poetry.lock' 'build/'
 
 # 環境を登録
-az ml environment create --file 'environment.yml' --registry-name 'dev-ml-template-registry103' --resource-group 'dev-ml-template-rg103'
+az ml environment create --file 'environment.yml' --registry-name 'dev-ml-template-registry101' --resource-group 'dev-ml-template-rg101'
 ```
 
 - コンポーネントを登録
@@ -65,10 +65,10 @@ rm -rf 'dist/*'
 rsync -ahv 'machine_learning/src' 'dist' --exclude '__pycache__'
 
 # コンポーネントを登録
-az ml component create --file 'components/preprocess.yml' --registry-name 'dev-ml-template-registry103' --resource-group 'dev-ml-template-rg103'
-az ml component create --file 'components/train.yml' --registry-name 'dev-ml-template-registry103' --resource-group 'dev-ml-template-rg103'
-az ml component create --file 'components/predict.yml' --registry-name 'dev-ml-template-registry103' --resource-group 'dev-ml-template-rg103'
-az ml component create --file 'components/evaluate.yml' --registry-name 'dev-ml-template-registry103' --resource-group 'dev-ml-template-rg103'
+az ml component create --file 'components/preprocess.yml' --registry-name 'dev-ml-template-registry101' --resource-group 'dev-ml-template-rg101'
+az ml component create --file 'components/train.yml' --registry-name 'dev-ml-template-registry101' --resource-group 'dev-ml-template-rg101'
+az ml component create --file 'components/predict.yml' --registry-name 'dev-ml-template-registry101' --resource-group 'dev-ml-template-rg101'
+az ml component create --file 'components/evaluate.yml' --registry-name 'dev-ml-template-registry101' --resource-group 'dev-ml-template-rg101'
 ```
 
 - 参考
@@ -82,10 +82,10 @@ az ml component create --file 'components/evaluate.yml' --registry-name 'dev-ml-
 
 ```shell
 # ストレージアカウント作成
-az storage account create --name 'devmlst103' --resource-group 'dev-ml-template-rg103' --location 'japaneast' --sku 'Standard_ZRS' --encryption-services 'blob'
+az storage account create --name 'devmlst101' --resource-group 'dev-ml-template-rg101' --location 'japaneast' --sku 'Standard_ZRS' --encryption-services 'blob'
 
 # コンテナー作成
-az storage container create --name 'devmlstc103' --account-name 'devmlst103' --resource-group 'dev-ml-template-rg103' --auth-mode 'login'
+az storage container create --name 'devmlstc101' --account-name 'devmlst101' --resource-group 'dev-ml-template-rg101' --auth-mode 'login'
 ```
 ## ファイルをコンテナーに登録
 
@@ -98,10 +98,10 @@ rm -rf 'dataset/*'
 cp 'machine_learning/data/diamonds.csv' 'dataset/'
 
 # データをコンテナに配置
-az storage blob upload --file 'dataset/diamonds.csv' --name 'diamonds.csv' --container-name 'devmlstc103' --account-name 'devmlst103' --auth-mode 'login'
+az storage blob upload --file 'dataset/diamonds.csv' --name 'diamonds.csv' --container-name 'devmlstc101' --account-name 'devmlst101' --auth-mode 'login'
 
 # パイプラインのテンプレートをコンテナに配置
-az storage blob upload --file 'pipelines/pipeline_template.yml' --name 'pipeline_template.yml' --container-name 'devmlstc103' --account-name 'devmlst103' --auth-mode 'login'
+az storage blob upload --file 'pipelines/pipeline_template.yml' --name 'pipeline_template.yml' --container-name 'devmlstc101' --account-name 'devmlst101' --auth-mode 'login'
 ```
 
 ## マネージドIDの作成及びロール付与
@@ -109,14 +109,14 @@ az storage blob upload --file 'pipelines/pipeline_template.yml' --name 'pipeline
 
 ```shell
 # マネージドID作成
-az identity create --name 'dev-ml-template-managedid' --resource-group 'dev-ml-template-rg103'
+az identity create --name 'dev-ml-template-managedid' --resource-group 'dev-ml-template-rg101'
 
 # マネージドIDのプリンシパルID確認
-az identity list --query "[?name == 'dev-ml-template-managedid'].principalId" --resource-group 'dev-ml-template-rg103' --output 'tsv'
+az identity list --query "[?name == 'dev-ml-template-managedid'].principalId" --resource-group 'dev-ml-template-rg101' --output 'tsv'
 
 # マネージドIDに AMLレジストリの `閲覧者` ロールを付与
-az role assignment create --assignee 'マネージドIDのプリンシパルID' --role '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7' --scope '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/resourceGroups/dev-ml-template-rg103/providers/Microsoft.MachineLearningServices/registries/dev-ml-template-registry103'
+az role assignment create --assignee 'マネージドIDのプリンシパルID' --role '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7' --scope '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/resourceGroups/dev-ml-template-rg101/providers/Microsoft.MachineLearningServices/registries/dev-ml-template-registry101'
 
 # マネージドIDに ストレージの `閲覧者とデータアクセス` ロールを付与
-az role assignment create --assignee 'マネージドIDのプリンシパルID' --role '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/providers/Microsoft.Authorization/roleDefinitions/c12c1c16-33a1-487b-954d-41c89c60f349' --scope '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/resourceGroups/dev-ml-template-rg103/providers/Microsoft.Storage/storageAccounts/devmlst103'
+az role assignment create --assignee 'マネージドIDのプリンシパルID' --role '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/providers/Microsoft.Authorization/roleDefinitions/c12c1c16-33a1-487b-954d-41c89c60f349' --scope '/subscriptions/f9928460-8ada-4f70-983d-a98b5653e039/resourceGroups/dev-ml-template-rg101/providers/Microsoft.Storage/storageAccounts/devmlst101'
 ```
