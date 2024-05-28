@@ -1,6 +1,9 @@
 # azureml-template
-本リポジトリは[Azure Machine Learning](https://learn.microsoft.com/ja-jp/azure/machine-learning/overview-what-is-azure-machine-learning?view=azureml-api-2)の環境構築のテンプレートになります。テンプレートはAzure MLワークスペースで機械学習パイプラインを実行、予測モデルの前処理→学習→予測→評価のデータと実行結果を一元管理します。
+本リポジトリは[Azure Machine Learning](https://learn.microsoft.com/ja-jp/azure/machine-learning/overview-what-is-azure-machine-learning?view=azureml-api-2)の環境構築のテンプレートになります。テンプレートはAzure MLワークスペースで機械学習パイプラインを実行、前処理→学習→予測→評価のジョブ実行結果を一元管理します。
+![img](images/azure_machine_learning_job.png)
 
+機械学習パイプラインに使用するジョブ（前処理、学習、予測、評価）は[Azure Machine Learning Registry](https://learn.microsoft.com/ja-jp/azure/machine-learning/how-to-manage-registries?view=azureml-api-2&tabs=cli)のコンポーネントで一元管理します。
+![img](images/azure_machine_learning_components.png)
 
 ## テンプレートの仕様
 - ML技術の開発者（以降、提供者と記載）がML技術を検証したい非開発者ユーザ（以降、利用者と記載）にML技術が動作する実行環境を提供（以降、デプロイと記載）する。
@@ -18,12 +21,15 @@
     - 既存のリソースグループ `dev-ml-template-rg101` に新規レジストリ `dev-ml-template-registry101` を登録
     - 作成したレジストリに環境とコンポーネントを登録
     - ストレージアカウント`devmlst101`およびコンテナ`devmlstc101`を登録し、データおよびジョブ定義ファイルを格納
-    - リソース名の末尾は1xxで管理
+    - リソース名の末尾は1xxで管理（画像のxxは16）
+![img](images/azure_machine_learning_provider.png)
+
 - [consumer](./consumer)
     - 新規のリソースグループ `dev-ml-template-rg201` を作成して、ワークスペース `dev-ml-template-ws201` を作成
     - テンプレートのジョブで使用するデータセットをデータ資産に登録
     - テンプレートのジョブを登録
-    - リソース名の末尾は2xxで管理
+    - リソース名の末尾は2xxで管理（画像のxxは16）
+![img](images/azure_machine_learning_consumer.png)
 
  ## テンプレート実行の前提
  - Windows(WSL2を有効化済み)やMacなどの実行環境を用意
