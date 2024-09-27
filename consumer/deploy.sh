@@ -1,7 +1,8 @@
 set -ex
 
 # Installs
-az extension add --name ml
+pip install --upgrade azure-core azure-ai-ml
+az extension show --name ml || az extension add --name ml
 apk add gettext
 
 # sleep
