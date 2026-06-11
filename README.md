@@ -39,30 +39,39 @@
 ```sh
 # Linux(Ubuntu/Debian) に Azure CLI をインストール
 # https://learn.microsoft.com/ja-jp/cli/azure/install-azure-cli-linux?pivots=apt
-curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+$ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 ```
 
 ```sh
 # macOS に Azure CLI をインストール
 # Homebrew が未インストールの場合: https://brew.sh/ja/
 # https://learn.microsoft.com/ja-jp/cli/azure/install-azure-cli-macos?view=azure-cli-latest
-brew update
-brew install azure-cli
-```
-
-```sh
-# Azure CLI のインストール確認
-az version
+$ brew update
+$ brew install azure-cli
 ```
 
 ```sh
 # Azure Machine Learning 用の Azure CLI 拡張をインストール
 # provider / consumer の手動 az ml コマンド実行時に使用
-az extension add --name ml --version 2.36.5
+az extension add --name ml
+```
+
+```sh
+# 2026-06-11 時点の例
+$ az version
+{
+  "azure-cli": "2.87.0",
+  "azure-cli-core": "2.87.0",
+  "azure-cli-telemetry": "1.1.0",
+  "extensions": {
+    "ml": "2.43.0"
+  }
+}
 ```
 
 - テンプレートスペック内の `deploymentScripts` では Azure 側の実行環境を使用するため、ローカル PC の Azure CLI バージョンとは独立して `AzCliVersion` と `ml` 拡張バージョンを固定しています
-- ローカルで `az ml` コマンドを実行する場合も、`ml` 拡張は版を固定してインストールすることを推奨します
+- ローカルで `az ml` コマンドを手動実行する場合は、Azure 側の固定版に合わせる必要はありません。手元の Azure CLI と整合する `ml` 拡張を使用してください
+- 本テンプレートでは、`provider` 側はローカル PC の Azure CLI / `ml` 拡張で手動実行し、`consumer` 側はテンプレートスペック内の `deploymentScripts` で Azure 側固定バージョンを使って実行する前提です
 
  ## テンプレートの実行
 - 本リポジトリのルートディレクトリに移動します。

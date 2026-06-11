@@ -12,17 +12,17 @@ template2work:
 	mkdir -p $(WORK_DIR)
 	cp -rf $(TEMPLATE_DIR) $(WORK_DIR)
 	# aml registry rg
-	$(call inplace_replace,$(WORK_DIR),"s/dev-ml-template-rg101/dev-ml-template-rg118/g")
+	$(call inplace_replace,$(WORK_DIR),"s/dev-ml-template-rg101/dev-ml-template-rg119/g")
 	# aml registry name
-	$(call inplace_replace,$(WORK_DIR),"s/dev-ml-template-registry101/dev-ml-template-registry118/g")
+	$(call inplace_replace,$(WORK_DIR),"s/dev-ml-template-registry101/dev-ml-template-registry119/g")
 	# storage account name
-	$(call inplace_replace,$(WORK_DIR),"s/devmlst101/devmlst118/g")
+	$(call inplace_replace,$(WORK_DIR),"s/devmlst101/devmlst119/g")
 	# storage container name
-	$(call inplace_replace,$(WORK_DIR),"s/devmlstc101/devmlstc118/g")
+	$(call inplace_replace,$(WORK_DIR),"s/devmlstc101/devmlstc119/g")
 	# consumer rg
-	$(call inplace_replace,$(WORK_DIR),"s/dev-ml-template-rg201/dev-ml-template-rg218/g")
+	$(call inplace_replace,$(WORK_DIR),"s/dev-ml-template-rg201/dev-ml-template-rg219/g")
 	# workspace
-	$(call inplace_replace,$(WORK_DIR),"s/dev-ml-template-ws201/dev-ml-template-ws218/g")
+	$(call inplace_replace,$(WORK_DIR),"s/dev-ml-template-ws201/dev-ml-template-ws219/g")
 
 
 WORK_TEMPLATE_DIR=work/consumer work/provider
