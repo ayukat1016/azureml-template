@@ -7,6 +7,19 @@ TEMPLATE_FILE=make_aml_ws_template.json
 # template sepc json file
 OUTPUT_FILE=make_aml_ws.json
 
-SCRIPT_CONTENT=$(cat deploy.sh | sed -z 's/\n/\\\\n/g' | sed -z 's/"/\\\"/g')
+SCRIPT_CONTENT=$(
+	awk '
+		{
+			gsub(/\\/,"\\\\")
+			gsub(/"/,"\\\"")
+			printf "%s\\\\n", $0
+		}
+	' deploy.sh
+)
 
-sed "s!SCRIPT_CONTENT!${SCRIPT_CONTENT}!" $TEMPLATE_FILE > $OUTPUT_FILE
+awk -v script_content="$SCRIPT_CONTENT" '
+	{
+		gsub(/SCRIPT_CONTENT/, script_content)
+		print
+	}
+' "$TEMPLATE_FILE" > "$OUTPUT_FILE"

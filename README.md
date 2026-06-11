@@ -37,10 +37,32 @@
  - Azure CLIをインストール済み、未インストールの場合は以下のコマンドを実行
 
 ```sh
-# Install Azure CLI
+# Linux(Ubuntu/Debian) に Azure CLI をインストール
 # https://learn.microsoft.com/ja-jp/cli/azure/install-azure-cli-linux?pivots=apt
- curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 ```
+
+```sh
+# macOS に Azure CLI をインストール
+# Homebrew が未インストールの場合: https://brew.sh/ja/
+# https://learn.microsoft.com/ja-jp/cli/azure/install-azure-cli-macos?view=azure-cli-latest
+brew update
+brew install azure-cli
+```
+
+```sh
+# Azure CLI のインストール確認
+az version
+```
+
+```sh
+# Azure Machine Learning 用の Azure CLI 拡張をインストール
+# provider / consumer の手動 az ml コマンド実行時に使用
+az extension add --name ml --version 2.36.5
+```
+
+- テンプレートスペック内の `deploymentScripts` では Azure 側の実行環境を使用するため、ローカル PC の Azure CLI バージョンとは独立して `AzCliVersion` と `ml` 拡張バージョンを固定しています
+- ローカルで `az ml` コマンドを実行する場合も、`ml` 拡張は版を固定してインストールすることを推奨します
 
  ## テンプレートの実行
 - 本リポジトリのルートディレクトリに移動します。
@@ -56,22 +78,10 @@ $ pwd
 ```sh
 # 連番を変更して、workにコピー
 $ make template2work
-rm -rf ./work
-mkdir -p ./work
-cp -rf consumer provider ./work
-# aml registry rg
-find ./work -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg101/dev-ml-template-rg114/g"
-# aml registry name
-find ./work -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-registry101/dev-ml-template-registry114/g"
-# storage account name
-find ./work -type f -print0 | xargs -0 sed -i -e "s/devmlst101/devmlst114/g"
-# storage container name
-find ./work -type f -print0 | xargs -0 sed -i -e "s/devmlstc101/devmlstc114/g"
-# consumer rg
-find ./work -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg201/dev-ml-template-rg214/g"
-# workspace
-find ./work -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-ws201/dev-ml-template-ws214/g"
 ```
+
+macOS で `sed -i -e` を使うと、`README.md-e` のようなバックアップファイルが生成されます。
+このリポジトリの `Makefile` はその差分を吸収するよう修正済みです。もし過去の実行で `-e` 付きファイルが残っている場合は、`make template2work` を再実行すると `work` ディレクトリごと作り直されます。
 - workの中のproviderディレクトリを移動して、[provider/README.md](./provider/README.md)のazコマンドを実行する。（azコマンド実行時にymlファイルが必要になるため）
 
 ```sh

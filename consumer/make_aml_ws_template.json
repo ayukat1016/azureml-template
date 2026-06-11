@@ -505,7 +505,7 @@
                 }
             },
             "properties": {
-                "AzCliVersion": "2.51.0",
+                "AzCliVersion": "2.61.0",
                 "environmentVariables": [
                     {
                         "name": "DELAY_SECONDS",

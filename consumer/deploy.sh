@@ -1,9 +1,8 @@
 set -ex
 
 # Installs
-pip install --upgrade azure-core azure-ai-ml
-az extension show --name ml || az extension add --name ml
 apk add gettext
+az extension add --name ml --version 2.36.5 --yes
 
 # sleep
 sleep $DELAY_SECONDS
@@ -18,12 +17,8 @@ ASSET_DESC=dev-ml-template-dataset
 ASSET_VERSION=1
 ASSET_PATH=${ASSET_DIR}/diamonds.csv
 
-mkdir $ASSET_DIR
+mkdir -p $ASSET_DIR
 az storage blob download --subscription ${PROVIDER_SUB} -f ${ASSET_PATH} -c ${STORAGE_CONTAINER} -n ${OBJECT_DATA} --account-name ${STORAGE_ACCOUNT_NAME} --account-key ${STORAGE_ACCOUNT_KEY}
-az ml data create --type uri_folder --name ${ASSET_NAME} --description ${ASSET_DESC} --path ${ASSET_DIR} --version ${ASSET_VERSION} --subscription ${CONSUMER_SUB} --resource-group ${CONSUMER_RG} --workspace-name ${CONSUMER_WS}
-
-# 新規コンピューティングリソース登録
-az ml compute create --type AmlCompute -n ${CLUSTER_NAME} --min-instances 0 --max-instances 1 --size ${CLUSTER_SIZE} --subscription ${CONSUMER_SUB} --resource-group ${CONSUMER_RG} --workspace-name ${CONSUMER_WS}
 
 # ジョブ実行登録
 JOB_DIR=./pipelines
@@ -33,9 +28,15 @@ JOB_PATH=${JOB_DIR}/pipeline.yml
 # Set environment variables for apply envsubst to job template
 export DATA_PATH=azureml:${ASSET_NAME}:${ASSET_VERSION}
 
-mkdir $JOB_DIR
+mkdir -p $JOB_DIR
 
 az storage blob download --subscription ${PROVIDER_SUB} -f ${JOB_TEMPLATE_PATH} -c ${STORAGE_CONTAINER} -n ${OBJECT_PIPELINE} --account-name ${STORAGE_ACCOUNT_NAME} --account-key ${STORAGE_ACCOUNT_KEY}
+
+# データ資産登録
+az ml data create --type uri_folder --name ${ASSET_NAME} --description ${ASSET_DESC} --path ${ASSET_DIR} --version ${ASSET_VERSION} --subscription ${CONSUMER_SUB} --resource-group ${CONSUMER_RG} --workspace-name ${CONSUMER_WS}
+
+# 新規コンピューティングリソース登録
+az ml compute create --type AmlCompute -n ${CLUSTER_NAME} --min-instances 0 --max-instances 1 --size ${CLUSTER_SIZE} --subscription ${CONSUMER_SUB} --resource-group ${CONSUMER_RG} --workspace-name ${CONSUMER_WS}
 
 echo '--- env ----------------------------------------------------------------------------------------------------------------------'
 env
@@ -52,4 +53,3 @@ sleep $DELAY_SECONDS
 az ml job create --file ${JOB_PATH} --subscription ${CONSUMER_SUB} --resource-group ${CONSUMER_RG} --workspace-name ${CONSUMER_WS}
 
 echo '{\"result\":\"OK\"}' > $AZ_SCRIPTS_OUTPUT_PATH
-

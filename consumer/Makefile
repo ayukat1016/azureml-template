@@ -1,6 +1,7 @@
 SUB ?= f9928460-8ada-4f70-983d-a98b5653e039
 RG ?= dev-ml-template-rg101
 TS_NAME ?= make_aml_ws
+# Increase when re-registering a template spec after changing deploy.sh or make_aml_ws_template.json
 TS_VERSION ?= 1
 USER_ADDR ?= sample@example.com
 
@@ -11,7 +12,7 @@ CONSUMER_RG ?= dev-ml-template-rg201
 .PHONY: gen-ts
 gen-ts:
 	echo "generating make_aml_ws.json"
-	$(shell sh ./gen_ts.sh)
+	sh ./gen_ts.sh
 
 # サブスクリプション切替
 .PHONY: set-subscription1

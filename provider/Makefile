@@ -39,10 +39,10 @@ create-component: set-subscription
 	mkdir -p dist
 	rm -rf dist/*
 	rsync -ahv machine_learning/src dist --exclude '__pycache__'
-	az ml component create --file components/preprocess.yml --registry-name $(AML_REGISTRY)
-	az ml component create --file components/train.yml --registry-name $(AML_REGISTRY)
-	az ml component create --file components/predict.yml --registry-name $(AML_REGISTRY)
-	az ml component create --file components/evaluate.yml --registry-name $(AML_REGISTRY)
+	az ml component create --file components/preprocess.yml --registry-name $(AML_REGISTRY) --resource-group $(RG)
+	az ml component create --file components/train.yml --registry-name $(AML_REGISTRY) --resource-group $(RG)
+	az ml component create --file components/predict.yml --registry-name $(AML_REGISTRY) --resource-group $(RG)
+	az ml component create --file components/evaluate.yml --registry-name $(AML_REGISTRY) --resource-group $(RG)
 
 # ストレージアカウント作成
 .PHONY: create-storage
@@ -100,4 +100,3 @@ create-role-assignment-identity:
 		--assignee "`az identity list --query "[?name == '$(IDENTITY_NAME)'].principalId" --output tsv`" \
 		--role '/subscriptions/$(SUB)/providers/Microsoft.Authorization/roleDefinitions/c12c1c16-33a1-487b-954d-41c89c60f349' \
 		--scope '/subscriptions/$(SUB)/resourceGroups/$(RG)/providers/Microsoft.Storage/storageAccounts/$(STORAGE_ACCOUNT_NAME)'
-

@@ -1,23 +1,28 @@
 TEMPLATE_DIR=consumer provider
 WORK_DIR=./work
 
+define inplace_replace
+	find $(1) -type f -print0 | xargs -0 sed -i.bak -e $(2)
+	find $(1) -type f -name '*.bak' -delete
+endef
+
 .PHONY: template2work
 template2work:
 	rm -rf $(WORK_DIR)
 	mkdir -p $(WORK_DIR)
 	cp -rf $(TEMPLATE_DIR) $(WORK_DIR)
 	# aml registry rg
-	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg101/dev-ml-template-rg117/g"
+	$(call inplace_replace,$(WORK_DIR),"s/dev-ml-template-rg101/dev-ml-template-rg118/g")
 	# aml registry name
-	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-registry101/dev-ml-template-registry117/g"
+	$(call inplace_replace,$(WORK_DIR),"s/dev-ml-template-registry101/dev-ml-template-registry118/g")
 	# storage account name
-	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/devmlst101/devmlst117/g"
+	$(call inplace_replace,$(WORK_DIR),"s/devmlst101/devmlst118/g")
 	# storage container name
-	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/devmlstc101/devmlstc117/g"
+	$(call inplace_replace,$(WORK_DIR),"s/devmlstc101/devmlstc118/g")
 	# consumer rg
-	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg201/dev-ml-template-rg217/g"
+	$(call inplace_replace,$(WORK_DIR),"s/dev-ml-template-rg201/dev-ml-template-rg218/g")
 	# workspace
-	find $(WORK_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-ws201/dev-ml-template-ws217/g"
+	$(call inplace_replace,$(WORK_DIR),"s/dev-ml-template-ws201/dev-ml-template-ws218/g")
 
 
 WORK_TEMPLATE_DIR=work/consumer work/provider
@@ -28,14 +33,14 @@ work2template:
 	rm -rf $(TEMPLATE_DIR)
 	cp -rf $(WORK_TEMPLATE_DIR) $(CURRENT_DIR)
 	# aml registry rg
-	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg1xx/dev-ml-template-rg101/g"
+	$(call inplace_replace,$(TEMPLATE_DIR),"s/dev-ml-template-rg1xx/dev-ml-template-rg101/g")
 	# aml registry name
-	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-registry1xx/dev-ml-template-registry101/g"
+	$(call inplace_replace,$(TEMPLATE_DIR),"s/dev-ml-template-registry1xx/dev-ml-template-registry101/g")
 	# storage account name
-	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/devmlst1xx/devmlst101/g"
+	$(call inplace_replace,$(TEMPLATE_DIR),"s/devmlst1xx/devmlst101/g")
 	# storage container name
-	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/devmlstc1xx/devmlstc101/g"
+	$(call inplace_replace,$(TEMPLATE_DIR),"s/devmlstc1xx/devmlstc101/g")
 	# consumer rg
-	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-rg2xx/dev-ml-template-rg201/g"
+	$(call inplace_replace,$(TEMPLATE_DIR),"s/dev-ml-template-rg2xx/dev-ml-template-rg201/g")
 	# workspace
-	find $(TEMPLATE_DIR) -type f -print0 | xargs -0 sed -i -e "s/dev-ml-template-ws2xx/dev-ml-template-ws201/g"
+	$(call inplace_replace,$(TEMPLATE_DIR),"s/dev-ml-template-ws2xx/dev-ml-template-ws201/g")

@@ -34,7 +34,6 @@ az group list --output table
 - Azure MLのレジストリを作成
 
 ```sh
-az extension add --name ml
 az ml registry create --file 'registry.yml' --name 'dev-ml-template-registry101' --resource-group 'dev-ml-template-rg101'
 ```
 

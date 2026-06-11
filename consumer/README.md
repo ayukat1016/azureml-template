@@ -83,6 +83,9 @@ az ml job create --file 'pipelines/pipeline.yml' --resource-group 'dev-ml-templa
 make gen-ts
 ```
 
+- `make_aml_ws.json` は `consumer/deploy.sh` を埋め込んで生成されるため、`deploy.sh` や `make_aml_ws_template.json` を変更した場合は毎回 `make gen-ts` を再実行する
+- `deploymentScripts` の Azure CLI 本体と `ml` 拡張の不整合を避けるため、テンプレートでは `AzCliVersion` と `ml` 拡張バージョンを固定している
+
 - 参考
   - https://learn.microsoft.com/ja-jp/azure/azure-resource-manager/templates/deployment-script-template
 
